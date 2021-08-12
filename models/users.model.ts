@@ -1,5 +1,6 @@
-import { Entity, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
+import { Entity, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, ManyToMany, JoinTable } from "typeorm";
 import BaseModel from "./base.model";
+import ConversationModel from "./conversation.model";
 import FriendListModel from "./friendList.model";
 import FriendRequestModel from "./request.model";
 
@@ -20,4 +21,7 @@ export default class UserModel extends BaseModel {
     public friendsList?: FriendListModel;
     @ManyToOne(() => FriendListModel, user => user.friends)
     public user?: FriendListModel;
+    @ManyToMany(() => ConversationModel)
+    @JoinTable()
+    public conversations?: ConversationModel[];
 }

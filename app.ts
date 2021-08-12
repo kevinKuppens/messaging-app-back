@@ -7,6 +7,7 @@ import { AuthRouter } from './Routes/aut.routes';
 import Repositories from './repositories';
 import { AdminRouter } from './Routes/admin.routes';
 import { RequestRouter } from './Routes/request.routes';
+import { ConversationRouter } from './Routes/conversation.routes';
 
 config({
     path: 'variables.env'
@@ -18,6 +19,7 @@ app.use(AdminRouter);
 app.use(UsersRoutes);
 app.use(AuthRouter);
 app.use(RequestRouter);
+app.use(ConversationRouter);
 
 
 
