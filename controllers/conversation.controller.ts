@@ -29,7 +29,6 @@ export default class ConversationController {
     static async newMessage(req: Request, res: Response) {
         const conversation: ConversationModel | undefined = await Repositories.conversationRepository.findOne({ id: parseInt(req.params.id) }, { relations: ['messages'] });
         const author: UserModel | undefined = await Repositories.userRepository.findOne({ id: req.body.authorId });
-        console.log(author)
         const newMessage = await Repositories.messagesRepository.create({
             author,
             content: req.body.content,

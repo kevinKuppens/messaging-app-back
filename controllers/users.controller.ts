@@ -7,18 +7,12 @@ export default class UsersController {
     static async register(req: Request, res: Response) {
         req.body.password = crypto.createHmac('sha256', process.env.SECRET ?? '').update(req.body.password).digest("hex");
         try {
-
-            // const data = { ...req.body, }
-
-
             const newFriendList = await Repositories.friendsListRepository.create({})
             const responseList = await Repositories.friendsListRepository.save(newFriendList);
             const data = {
                 ...req.body,
                 friendsList: responseList.id
             }
-
-            console.log(data);
             const newUser = await Repositories.userRepository.create(data);
             const response = await Repositories.userRepository.save(newUser)
             res.status(200).json(response);

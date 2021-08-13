@@ -8,4 +8,6 @@ export default class FriendRequestModel extends BaseModel {
     public user?: UserModel;
     @Column()
     public fromUserId !: number;
+    @Column()
+    public toUserId !: number;
 }
