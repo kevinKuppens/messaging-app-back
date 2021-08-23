@@ -5,24 +5,31 @@ import jwt from 'jsonwebtoken';
 
 export default class AuthentificationController {
     static async login(req: Request, res: Response) {
-        req.body.password = crypto.createHmac('sha256', process.env.SECRET ?? '').update(req.body.password).digest("hex");
-        const user = await Repositories.userRepository.findOne({ email: req.body.email });
-        if (user && user.password === req.body.password) {
-            const data = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.lastName,
+        try{
+            req.body.password = crypto.createHmac('sha256', process.env.SECRET ?? '').update(req.body.password).digest("hex");
+            const user = await Repositories.userRepository.findOne({ email: req.body.email });
+            if (user && user.password === req.body.password) {
+                const data = {
+                    id: user.id
+                }
+                const response = await jwt.sign({
+                    exp: Math.floor(Date.now() / 1000) + (60 * 30),
+                    data: data,
+                }, process.env.SECRET ?? '')
+                res.status(200).json(response);
+            }else{
+                const error =  new Error();
+                if(user){
+                    error.message="Wrong password";
+                    res.status(401).send(error);
+                }else{
+                    error.message = 'User not found';
+                    res.status(404).send(error);
+                }   
             }
-            const response = await jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 30),
-                data: data,
-            }, process.env.SECRET ?? '')
-            res.status(200).json(response);
-        } else if (user && user.password !== req.body.password) {
-            res.status(401).send(`wrong credentials`)
-        } else {
-            res.status(404).send('no user found');
+        }catch(e){
+            console.log(e);
+            res.send(e)
         }
     }
     static async authorize(req: Request, res: Response, next: NextFunction) {

@@ -10,7 +10,7 @@ export default class Database {
             "username": "root",
             "password": "test1234",
             "database": "messagingSandbox",
-            "synchronize": true,
+            "synchronize": false,
             "entities": ["models/*.ts"]
         };
         const connection = await createConnection(ormConfigOptions);

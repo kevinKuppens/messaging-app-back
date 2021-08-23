@@ -8,11 +8,13 @@ import Repositories from './repositories';
 import { AdminRouter } from './Routes/admin.routes';
 import { RequestRouter } from './Routes/request.routes';
 import { ConversationRouter } from './Routes/conversation.routes';
+import cors from 'cors';
 
 config({
     path: 'variables.env'
 })
 const app = Express();
+app.use(cors())
 app.use(json());
 
 app.use(AdminRouter);

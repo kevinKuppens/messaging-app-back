@@ -9,6 +9,7 @@ router.get('/', (req: Request, res: Response) => {
     res.send('OK gros');
 })
 
+router.get('/api/v1/users/:id', AuthentificationController.authorize, UsersController.getUser)
 router.post('/api/v1/users', UsersValidator.getRules(), UsersValidator.validate, UsersController.register)
 router.put('/api/v1/users/:id', AuthentificationController.authorize, UsersController.update)
 router.delete('/api/v1/users/:id', UsersController.delete)
